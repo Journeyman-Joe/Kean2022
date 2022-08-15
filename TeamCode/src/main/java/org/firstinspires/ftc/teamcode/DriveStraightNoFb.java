@@ -55,7 +55,7 @@ public class DriveStraightNoFb extends LinearOpMode {
     private ElapsedTime     runtime = new ElapsedTime();
 
 
-    static final double     FORWARD_SPEED = 0.3;
+    static final double     FORWARD_SPEED = 0.5;
     static final double     RUN_TIME = 5.0;
 
     @Override

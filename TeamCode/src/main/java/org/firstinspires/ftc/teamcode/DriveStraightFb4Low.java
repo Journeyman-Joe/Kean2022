@@ -51,9 +51,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Drive With Feedback", group="Robot")
+@Autonomous(name="Drive With Low Feedback", group="Robot")
 //@Disabled
-public class DriveStraightFb2 extends LinearOpMode {
+public class DriveStraightFb4Low extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         leftDrive   = null;
@@ -85,7 +85,7 @@ public class DriveStraightFb2 extends LinearOpMode {
     double error;       // Calculated difference between bearing and heading (degrees)
     double powerAdjustment;     // Increase & decrease wheel speed by this amount (calculated from error, K_PROP)
 
-    static final double K_PROP = 0.10 * FORWARD_SPEED;      // Proportionality constant for PID control
+    static final double K_PROP = 0.01 * FORWARD_SPEED;      // Proportionality constant for PID control (TOO LOW)
                                                             // amount of correction applied per degree of error
 
     @Override
