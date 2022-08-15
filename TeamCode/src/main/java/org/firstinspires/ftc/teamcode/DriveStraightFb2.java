@@ -80,12 +80,13 @@ public class DriveStraightFb2 extends LinearOpMode {
     Acceleration gravity;
 
     // Variables we're going to use for steering
-    double bearing;     // The target angle returned by the IMU before we start moving
-    double heading;     // The measured angle read from the IMU during the drive
-    double error;       // Calculated difference between bearing and heading
+    double bearing;     // The target angle returned by the IMU before we start moving (degrees)
+    double heading;     // The measured angle read from the IMU during the drive (degrees)
+    double error;       // Calculated difference between bearing and heading (degrees)
     double powerAdjustment;     // Increase & decrease wheel speed by this amount (calculated from error, K_PROP)
 
     static final double K_PROP = 0.05 * FORWARD_SPEED;      // Proportionality constant for PID control
+                                                            // amount of correction applied per degree of error
 
     @Override
     public void runOpMode() {
@@ -132,6 +133,8 @@ public class DriveStraightFb2 extends LinearOpMode {
             telemetry.update();
         }
 
+        // waitForStart() may be redundant, given the above opModeInInit() loop, but it's harmless
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
@@ -167,12 +170,15 @@ public class DriveStraightFb2 extends LinearOpMode {
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             heading = angles.firstAngle;
             error = bearing - heading;
+
             if(Math.abs(error)>25){     // Failsafe if we're more than 25 degrees off
                 terminateOpModeNow();   // Opportunity to try new SDK method
             }
+
             powerAdjustment = error * K_PROP;   // Convert degrees of error to a motor power adjustment
             leftDrive.setPower(FORWARD_SPEED-powerAdjustment);
             rightDrive.setPower(FORWARD_SPEED+powerAdjustment);
+
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
